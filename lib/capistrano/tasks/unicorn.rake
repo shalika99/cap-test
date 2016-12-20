@@ -11,15 +11,15 @@ namespace :unicorn do
   end
 
   def stop_unicorn
-    #execute :kill, "-s QUIT $(< #{fetch(:unicorn_pid)})"
+    execute :kill, "-s QUIT $(< #{fetch(:unicorn_pid)})"
   end
 
   def reload_unicorn
-  #  execute :kill, "-s USR2 $(< #{fetch(:unicorn_pid)})"
+    execute :kill, "-s USR2 $(< #{fetch(:unicorn_pid)})"
   end
 
   def force_stop_unicorn
-    #execute :kill, "$(< #{fetch(:unicorn_pid)})"
+    execute :kill, "$(< #{fetch(:unicorn_pid)})"
   end
 
   desc "Start unicorn server"

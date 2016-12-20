@@ -6,7 +6,8 @@ working_directory @app_path + "/current"
 worker_processes 2
 preload_app true
 timeout 30
-listen "/tmp/unicorn.sock", backlog: 64
+listen File.expand_path("#{@app_path}/shared/tmp/sockets/unicorn.sock", ENV['RAILS_ROOT'])
+#listen "#{@app_path}/shared/tmp/sockets/unicorn.sock", backlog: 64
 pid "#{@app_path}/shared/tmp/pids/unicorn.pid"
 stderr_path "#{@app_path}/current/log/unicorn.stderr.log"
 stdout_path "#{@app_path}/current/log/unicorn.stdout.log"
