@@ -24,7 +24,7 @@ set :deploy_to, "~/CureApp-1/deploy/cap-test"
 # set :pty, true
 
 # Default value for :linked_files is []
-# append :linked_files, "config/database.yml", "config/secrets.yml"
+#set :linked_files, {"config/database.yml", "config/secrets.yml"}
 
 # Default value for linked_dirs is []
 # append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/system"
@@ -38,13 +38,15 @@ set :deploy_to, "~/CureApp-1/deploy/cap-test"
 # localhost の ssh を許可しておくこと
 role :local, "127.0.0.1"
 
+after 'deploy:publishing', 'deploy:restart'
+
 namespace :deploy do
-  after :restart, :clear_cache do
-    on roles(:web), in: :groups, limit: 3, wait: 10 do
-      # Here we can do anything such as:
-      # within release_path do
-      #   execute :rake, 'cache:clear'
-      # end
-    end
+  task :restart do
+    invoke 'unicorn:stop'
+    invoke 'unicorn:reload'
+  end
+
+  task :stop do
+    invoke 'unicorn:stop'
   end
 end
