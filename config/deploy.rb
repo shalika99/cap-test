@@ -42,6 +42,15 @@ set :deploy_to, "~/CureApp-1/deploy2/cap-test"
 # set :rbenv_custom_path, '/Users/sharika/.rbenv'    # rbenvのインストール先
 # set :rbenv_map_bins, %w{rake gem bundle ruby rails} # rbenv execをつけたいコマンド
 
+# set :default_env, {
+#     path: '/usr/local/rbenv/plugins/ruby-build/bin:/usr/local/rbenv/shims:/usr/local/rbenv/bin:$PATH',
+#     rbenv_root: '/usr/local/rbenv'
+# }
+# set :rbenv_roles, :all
+# set :rbenv_ruby, '2.3.1'
+# set :rbenv_ruby_dir, '/Users/sharika/.rbenv/versions/2.3.1'
+# set :rbenv_custom_path, '/Users/sharika/.rbenv'
+
 # localhost の ssh を許可しておくこと
 role :local, "127.0.0.1"
 
