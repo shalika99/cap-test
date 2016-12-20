@@ -1,56 +1,38 @@
-namespace :unicorn do
-  task :environment do
-    set :unicorn_pid, "#{shared_path}/tmp/pids/unicorn.pid"
-    set :unicorn_config, "#{current_path}/config/unicorn/#{fetch(:rails_env)}/unicorn.rb"
+root = "[APP_DIRECTORY]/[APP_NAME]/current" # e.g. /var/apps/rails_blog/current
+working_directory root
+
+pid "#{root}/tmp/pids/unicorn.pid"
+
+stderr_path "#{root}/log/unicorn.log"
+stdout_path "#{root}/log/unicorn.log"
+
+worker_processes 8 # update this with your preference
+timeout 30
+preload_app true
+
+listen '/tmp/unicorn.[APP_NAME].sock', backlog: 64
+
+before_fork do |server, worker|
+  Signal.trap 'TERM' do
+    puts 'Unicorn master intercepting TERM and sending myself QUIT instead'
+    Process.kill 'QUIT', Process.pid
   end
 
-  def start_unicorn
-    within current_path do
-      execute :bundle, :exec, :unicorn_rails, "-c #{fetch(:unicorn_config)} -E #{fetch(:rails_env)} -p 8080 -D"
-    end
+  defined?(ActiveRecord::Base) and
+    ActiveRecord::Base.connection.disconnect!
+end
+
+after_fork do |server, worker|
+  Signal.trap 'TERM' do
+    puts 'Unicorn worker intercepting TERM and doing nothing. Wait for master to send QUIT'
   end
 
-  def stop_unicorn
-    execute :kill, "-s QUIT $(< #{fetch(:unicorn_pid)})"
-  end
+  defined?(ActiveRecord::Base) and
+    ActiveRecord::Base.establish_connection
+end
 
-  def reload_unicorn
-    execute :kill, "-s USR2 $(< #{fetch(:unicorn_pid)})"
-  end
-
-  def force_stop_unicorn
-    execute :kill, "$(< #{fetch(:unicorn_pid)})"
-  end
-
-  desc "Start unicorn server"
-  task :start => :environment do
-    on roles(:app) do
-      start_unicorn
-    end
-  end
-
-  desc "Stop unicorn server gracefully"
-  task :stop => :environment do
-    on roles(:app) do
-      stop_unicorn
-    end
-  end
-
-  desc "Restart unicorn server gracefully"
-  task :restart => :environment do
-    on roles(:app) do
-      if test("[ -f #{fetch(:unicorn_pid)} ]")
-        reload_unicorn
-      else
-        start_unicorn
-      end
-    end
-  end
-
-  desc "Stop unicorn server immediately"
-  task :force_stop => :environment do
-    on roles(:app) do
-      force_stop_unicorn
-    end
-  end
+# Force the bundler gemfile environment variable to
+# reference the capistrano "current" symlink
+before_exec do |_|
+  ENV['BUNDLE_GEMFILE'] = File.join(root, 'Gemfile')
 end
