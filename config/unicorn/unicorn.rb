@@ -1,4 +1,4 @@
-root = "[APP_DIRECTORY]/[APP_NAME]/current" # e.g. /var/apps/rails_blog/current
+root = "deploy2/cap-test/current" # e.g. /var/apps/rails_blog/current
 working_directory root
 
 pid "#{root}/tmp/pids/unicorn.pid"
