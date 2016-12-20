@@ -51,4 +51,4 @@ production:
   <<: *default
   database: cap_test_production
   username: root
-  password: <%= ENV['CAP-TEST_DATABASE_PASSWORD'] %>
+  password:
