@@ -1,6 +1,6 @@
 #root = "deploy2/cap-test/current" # e.g. /var/apps/rails_blog/current
 #working_directory root
-@app_path = '../../.././deploy2/cap-test'
+@app_path = '../../../../deploy2/cap-test'
 working_directory @app_path + "/current"
 
 worker_processes 2
