@@ -1,6 +1,6 @@
 #root = "deploy2/cap-test/current" # e.g. /var/apps/rails_blog/current
 #working_directory root
-@app_path = 'deploy2/cap-test/current'
+@app_path = 'deploy2/cap-test'
 working_directory @app_path + "/current"
 
 worker_processes 2
@@ -31,6 +31,6 @@ after_fork do |server, worker|
   end
 end
 before_exec do |server|
-  ENV['BUNDLE_GEMFILE'] = "/var/www/cafeapp/current/Gemfile"
+  ENV['BUNDLE_GEMFILE'] = "/deploy2/cap-test/current/Gemfile"
   Dotenv.overload
 end
