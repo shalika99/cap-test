@@ -36,8 +36,8 @@ require "capistrano/bundler"
 require 'rails'
 require 'capistrano3-unicorn'
 
-set :rbenv_type, :user
-set :rbenv_ruby, '2.3.1'
+# set :rbenv_type, :user
+# set :rbenv_ruby, '2.3.1'
 #set :linked_files, %w{config/database.yml config/secrets.yml .env}
 set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets bundle public/system public/assets public/uploads}
 
