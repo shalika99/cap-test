@@ -52,6 +52,7 @@ group :development do
   gem 'capistrano-bundler', '~> 1.2', require: false
   gem 'capistrano-rbenv', '~> 2.0'
   gem 'capistrano3-unicorn'
+  gem 'capistrano3-ridgepole'
   #gem 'capistrano-rvm'
 end
 
