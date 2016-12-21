@@ -42,5 +42,20 @@ require 'capistrano3/ridgepole'
 set :linked_files, %w{config/database.yml config/secrets.yml}
 set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets bundle public/system public/assets public/uploads}
 
+# Target server(role) where you'll apply the database schema settings.
+set :ridgepole_roles, :db
+
+# Path of Schemafile  (default path is root of your app directory)
+set :ridgepole_schema_file, File.join((fetch(:current_path)), "Schemafile")
+
+# Path of database.yml (default path is config/database.yml)
+set :ridgepole_config_file, File.join(fetch(:current_path), "config", "database.yml")
+
+# Environment of rails application that you'd apply schema. (default env is "development")
+set :ridgepole_env, fetch(:rails_env)
+
+# Additional ridgepole options (default is empty)
+set :ridgepole_options, "--alter-extra='LOCK=NONE' --debug"
+
 # Load custom tasks from `lib/capistrano/tasks` if you have any defined
 Dir.glob("lib/capistrano/tasks/*.rake").each { |r| import r }

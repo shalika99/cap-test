@@ -6,7 +6,7 @@ namespace :unicorn do
 
   def start_unicorn
     within current_path do
-      execute :bundle, :exec, :unicorn, "-c #{fetch(:unicorn_config)} -E #{fetch(:rails_env)} -D"
+      execute :bundle, :exec, :unicorn, "-c #{fetch(:unicorn_config)} -E development -D"
     end
   end
 
@@ -40,7 +40,9 @@ namespace :unicorn do
   task :restart => :environment do
     on roles(:app) do
       if test("[ -f #{fetch(:unicorn_pid)} ]")
-        reload_unicorn
+        #reload_unicorn
+        stop_unicorn
+        start_unicorn
       else
         start_unicorn
       end
