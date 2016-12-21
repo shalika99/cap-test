@@ -46,10 +46,10 @@ set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets bundle public/system
 set :ridgepole_roles, :db
 
 # Path of Schemafile  (default path is root of your app directory)
-set :ridgepole_schema_file, %w{Schemafile}
+set :ridgepole_schema_file, File.join("Schemafile")
 
 # Path of database.yml (default path is config/database.yml)
-set :ridgepole_config_file, %w{config/database.yml} #File.join(fetch(:current_path), "config", "database.yml")
+set :ridgepole_config_file, File.join("config", "database.yml")
 
 # Environment of rails application that you'd apply schema. (default env is "development")
 set :ridgepole_env, fetch(:rails_env)
